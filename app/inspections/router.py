@@ -95,7 +95,7 @@ async def get_inspection(inspection_id: str):
     return insp
 
 @router.get("/{inspection_id}/image")
-async def get_inspection(inspection_id: str):
+async def get_inspection_image(inspection_id: str):
     for ext in [".jpg", ".jpeg", ".png"]:
         path = os.path.join(settings.UPLOAD_DIR, f"{inspection_id}{ext}")
         if os.path.exists(path):
@@ -107,7 +107,7 @@ async def get_inspection(inspection_id: str):
     )
 
 @router.get("/{inspection_id}/evidence", response_model=EvidenceResponse)
-async def get_inspection(inspection_id: str):
+async def get_inspection_evidence(inspection_id: str):
     evidence = inspection_service.get_evidence(inspection_id)
     if not evidence:
         raise HTTPException(

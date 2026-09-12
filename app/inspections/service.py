@@ -1,4 +1,11 @@
 import os
+from .repository import (
+    save_inspection,
+    get_inspection,
+    save_status,
+    get_status,
+    inspection_repository,
+)
 from datetime import datetime, timezone
 from typing import Optional, Dict, Any, List
 from app.config import settings
@@ -19,20 +26,7 @@ class InspectionService:
         self.compliance_engine = ComplianceEngine()
 
     def _generate_id(self) -> str:
-        """Dynamically generates inspection ID with current year, e.g. LM-2026-0001"""
-        current_year = datetime.now(timezone.utc).year
-        existing_ids = get_all_inspection_ids()
-        year_prefix = f"LM-{current_year}-"
-        matching_nums = []
-        for iid in existing_ids:
-            if iid.startswith(year_prefix):
-                try:
-                    num = int(iid.split("-")[-1])
-                    matching_nums.append(num)
-                except ValueError:
-                    pass
-        next_num = max(matching_nums, default=0) + 1
-        return f"LM-{current_year}-{next_num:04d}"
+        return inspection_repository.next_id()
 
     def save_file(self, data: bytes, filename: str, content_type: str, inspection_id: str) -> str:
         os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
