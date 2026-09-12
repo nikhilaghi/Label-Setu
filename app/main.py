@@ -18,14 +18,17 @@ app = FastAPI(
     openapi_url="/openapi.json"
 )
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=[
+        "http://localhost:5173",
+        "https://label-setu-frontend.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Health endpoint per requirement 2
 @app.get("/api/health")
