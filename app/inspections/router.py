@@ -31,7 +31,7 @@ async def create_inspection(
         "zone": "North Zone - Delhi HQ",
         "badgeNumber": "LM-ENF-2026-894",
     }
-    
+
     allowed_content_types = ["image/jpeg", "image/png", "image/jpg", "application/octet-stream"]
     filename = file.filename or "upload.jpg"
     ext = os.path.splitext(filename)[1].lower()
@@ -75,7 +75,7 @@ async def create_inspection(
     return {"inspectionId": inspection_id}
 
 @router.get("/{inspection_id}/status", response_model=InspectionStatus)
-async def get_status(inspection_id: str, user: dict = Depends(get_current_user)):
+async def get_status(inspection_id: str):
     st = inspection_service.get_status(inspection_id)
     if not st:
         raise HTTPException(
@@ -85,7 +85,7 @@ async def get_status(inspection_id: str, user: dict = Depends(get_current_user))
     return st
 
 @router.get("/{inspection_id}")
-async def get_inspection(inspection_id: str, user: dict = Depends(get_current_user)):
+async def get_inspection(inspection_id: str):
     insp = inspection_service.get_inspection(inspection_id)
     if not insp:
         raise HTTPException(
@@ -95,7 +95,7 @@ async def get_inspection(inspection_id: str, user: dict = Depends(get_current_us
     return insp
 
 @router.get("/{inspection_id}/image")
-async def get_image(inspection_id: str, user: dict = Depends(get_current_user)):
+async def get_inspection(inspection_id: str):
     for ext in [".jpg", ".jpeg", ".png"]:
         path = os.path.join(settings.UPLOAD_DIR, f"{inspection_id}{ext}")
         if os.path.exists(path):
@@ -107,7 +107,7 @@ async def get_image(inspection_id: str, user: dict = Depends(get_current_user)):
     )
 
 @router.get("/{inspection_id}/evidence", response_model=EvidenceResponse)
-async def get_evidence(inspection_id: str, user: dict = Depends(get_current_user)):
+async def get_inspection(inspection_id: str):
     evidence = inspection_service.get_evidence(inspection_id)
     if not evidence:
         raise HTTPException(
